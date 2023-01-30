@@ -3,7 +3,7 @@ import scrapy
 
 from pep_parse.items import PepParseItem
 
-PEP_NUMBER_REGEXP = r'PEP\s(?P<number>\d+)\W+(?P<name>.+)$'
+PEP_REGEXP = r'PEP\s(?P<number>\d+)\W+(?P<name>.+)$'
 
 
 class PepSpider(scrapy.Spider):
@@ -18,7 +18,7 @@ class PepSpider(scrapy.Spider):
 
     def parse_pep(self, response):
         title = response.css('h1.page-title::text').get().replace('-', '')
-        number, name = re.search(PEP_NUMBER_REGEXP, title).groups()
+        number, name = re.search(PEP_REGEXP, title).groups()
         status = (
             response.css('dt:contains("Status") + dd').css('abbr::text').get()
         )

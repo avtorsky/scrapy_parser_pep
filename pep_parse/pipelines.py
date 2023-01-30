@@ -3,23 +3,16 @@ from collections import Counter
 from datetime import datetime as dt
 from scrapy.exceptions import DropItem
 
-from pep_parse.settings import BASE_DIR, RESULTS_DIR
+from pep_parse.settings import BASE_DIR
 
-TIME_FORMAT = '%Y-%m-%d_%H-%M-%S'
 FILENAME = 'status_summary_{}.csv'
+TIME_FORMAT = '%Y-%m-%d_%H-%M-%S'
 
 
 class PepParsePipeline:
-    def __init__(self) -> None:
-        self.results_dir = BASE_DIR / RESULTS_DIR
-        self.results_dir.mkdir(exist_ok=True)
-        self.total = Counter()
-
     def open_spider(self, spider):
-        time = dt.now().strftime(TIME_FORMAT)
-        file_path = self.results_dir / FILENAME.format(time)
-        self.file = csv.writer(open(file_path, 'w'))
-        self.file.writerow(['Статус', 'Количество'])
+        self.total = Counter()
+        self.time = dt.now().strftime(TIME_FORMAT)
 
     def process_item(self, item, spider):
         self.total[item['status']] += 1
@@ -28,5 +21,9 @@ class PepParsePipeline:
         return item
 
     def close_spider(self, spider):
+        results_dir = BASE_DIR / 'results'
+        file_path = results_dir / FILENAME.format(self.time)
+        file = csv.writer(open(file_path, 'w'))
+        file.writerow(['Статус', 'Количество'])
         self.total['Total'] = sum(self.total.values())
-        self.file.writerows(self.total.items())
+        file.writerows(self.total.items())
