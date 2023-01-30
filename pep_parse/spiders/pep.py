@@ -9,7 +9,7 @@ PEP_NUMBER_REGEXP = r'PEP\s(?P<number>\d+)\W+(?P<name>.+)$'
 class PepSpider(scrapy.Spider):
     name = 'pep'
     allowed_domains = ['peps.python.org']
-    start_urls = ['http://peps.python.org/']
+    start_urls = ['https://peps.python.org/']
 
     def parse(self, response):
         peps = response.css('section#numerical-index td a::attr(href)')

@@ -7,11 +7,10 @@ NEWSPIDER_MODULE = 'pep_parse.spiders'
 
 ROBOTSTXT_OBEY = True
 
-BASE_DIR = Path(__file__).parent.parent
-RESULT_DIR = Path('results')
+BASE_DIR = Path(__file__).parents[1]
+RESULTS_DIR = 'results'
 FEEDS = {
-    RESULT_DIR
-    / 'pep_%(time)s.csv': {
+    f'{RESULTS_DIR}/pep_%(time)s.csv': {
         'format': 'csv',
         'fields': ['number', 'name', 'status'],
         'overwrite': True,
