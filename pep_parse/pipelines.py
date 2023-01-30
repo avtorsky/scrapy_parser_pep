@@ -1,10 +1,10 @@
 import csv
-
 from collections import Counter
 from datetime import datetime as dt
+from pathlib import Path
 from scrapy.exceptions import DropItem
 
-from pep_parse.settings import BASE_DIR, RESULT_DIR
+from pep_parse.settings import BASE_DIR, RESULTS_DIR
 
 TIME_FORMAT = '%Y-%m-%d_%H-%M-%S'
 FILENAME = 'status_summary_{}.csv'
@@ -12,7 +12,7 @@ FILENAME = 'status_summary_{}.csv'
 
 class PepParsePipeline:
     def __init__(self) -> None:
-        self.results_dir = BASE_DIR / RESULT_DIR
+        self.results_dir = BASE_DIR / RESULTS_DIR
         self.results_dir.mkdir(exist_ok=True)
         self.total = Counter()
 
