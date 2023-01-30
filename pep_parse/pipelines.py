@@ -1,7 +1,6 @@
 import csv
 from collections import Counter
 from datetime import datetime as dt
-from pathlib import Path
 from scrapy.exceptions import DropItem
 
 from pep_parse.settings import BASE_DIR, RESULTS_DIR
