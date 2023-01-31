@@ -6,6 +6,7 @@ from scrapy.exceptions import DropItem
 from pep_parse.settings import BASE_DIR
 
 FILENAME = 'status_summary_{}.csv'
+OUTPUT_DIR = BASE_DIR / 'results'
 TIME_FORMAT = '%Y-%m-%d_%H-%M-%S'
 
 
@@ -21,7 +22,7 @@ class PepParsePipeline:
         return item
 
     def close_spider(self, spider):
-        results_dir = BASE_DIR / 'results'
+        results_dir = OUTPUT_DIR
         file_path = results_dir / FILENAME.format(self.time)
         file = csv.writer(open(file_path, 'w'))
         file.writerow(['Статус', 'Количество'])
